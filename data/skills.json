@@ -1,0 +1,16 @@
+[
+  {"hero_id": 1, "skills": ["Barrier array", "Sonic repulsors", "Crystal charge"], "ultimate": "Panopticon"},
+  {"hero_id": 2, "skills": ["Boosters", "Defense Matrix", "Micro missles"], "ultimate": "Self-Destruct"},
+  {"hero_id": 3, "skills": ["Rocket punch", "Seismic slam", "Power block"], "ultimate": "Meteor strike"},
+  {"hero_id": 4, "skills": ["Spike guard", "Violent grip", "Jagged wall"], "ultimate":"Downpour"},
+  {"hero_id": 5, "skills": ["Commanding shout", "Carnage"], "ultimate":"Rampage"},
+  {"hero_id": 6, "skills": ["Overrun", "Cardiac overdrive"], "ultimate":"Cage fight"},
+  {"hero_id": 7, "skills": ["Energy javelin", "Fortify", "Javelin spin"], "ultimate":"Terra surge"},
+  {"hero_id": 8, "skills": ["Void barrier", "Pummel (Nemesis form)", "Ravenous vortex"], "ultimate":"Annihilation"},
+  {"hero_id": 9, "skills": ["Charge", "Fire strike"], "ultimate":"Earthshatter"},
+  {"hero_id": 10, "skills": ["Chain hook", "Take a breather"], "ultimate":"Whole hog"},
+  {"hero_id": 11, "skills": ["Kinetig grasp", "Accretion", "Experimental barrier"], "ultimate":"Gravitix flux"},
+  {"hero_id": 12, "skills": ["Jump pack", "Barrier protection"], "ultimate":"Primal rage"},
+  {"hero_id": 13, "skills": ["Grappling claw", "Piledriver", "Adaptive shield"], "ultimate":"Minefield"},
+  {"hero_id": 14, "skills": ["Particle barrier", "Projected barrier"], "ultimate":"Gravition surge"}
+]

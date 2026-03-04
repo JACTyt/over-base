@@ -1,0 +1,9 @@
+.venv
+__pycache__
+icons
+heroes-2
+
+
+## Dont need for now
+data/compositions-6x6.json
+data/compositions.json
