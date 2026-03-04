@@ -1,0 +1,23 @@
+[
+  {
+    "composition_name": "Dive",
+    "tanks": ["Winston", "D.Va"],
+    "dps": ["Genji", "Tracer"],
+    "supports": ["Lucio", "Kiriko"],
+    "strength": "HIGH"
+  },
+  {
+    "composition_name": "Brawl",
+    "tanks": ["Reinhardt", "Zarya"],
+    "dps": ["Soldier 76", "Reaper"],
+    "supports": ["Ana", "Moira"],
+    "strength": "MEDIUM"
+  },
+  {
+    "composition_name": "Poke",
+    "tanks": ["Sigma", "Orisa"],
+    "dps": ["Hanzo", "Ashe"],
+    "supports": ["Baptiste", "Mercy"],
+    "strength": "LOW"
+  }
+]

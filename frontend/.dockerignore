@@ -1,0 +1,10 @@
+# Node modules (huge!)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Angular build outputs (optional)
+dist/
+
+Dockerfile
+docker-compose.yml

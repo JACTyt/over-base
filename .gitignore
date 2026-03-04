@@ -3,7 +3,9 @@ __pycache__
 icons
 heroes-2
 
-
+node_modules
+dist
 ## Dont need for now
 data/compositions-6x6.json
 data/compositions.json
+backend/routes/compositions.py
