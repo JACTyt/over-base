@@ -1,0 +1,21 @@
+info:
+  name: Draft hero by role
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: "{{api}}/draft_role"
+  body:
+    type: json
+    data: |-
+      {
+        "role": "tank"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
