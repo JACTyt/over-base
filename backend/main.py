@@ -2,8 +2,15 @@ from fastapi import FastAPI
 import uvicorn
 from routes.drafts import router as draft_router 
 from routes.skills import router as skills_router
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:4200"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 def start_server(app):
     uvicorn.run(app, host="127.0.0.1", port=8000)

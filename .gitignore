@@ -1,6 +1,6 @@
 .venv
 __pycache__
-icons
+/icons/
 heroes-2
 
 node_modules

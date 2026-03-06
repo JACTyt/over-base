@@ -5,6 +5,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 from enum import Enum
 
+HISTORY_LOG = "../data/history.log"
 
 class Role(str, Enum):
     tank = "tank"
@@ -18,26 +19,33 @@ class draftRequest(BaseModel):
     role: Optional[Role] = None 
 
 with open("data/heroes.json") as f:
-    heroes = json.load(f)
+    heroes_data = json.load(f)
 
 def get_hero_by_id(hero_id):
-    for hero in heroes:
+    for hero in heroes_data:
         if hero["id"] == hero_id:
             return hero
     return None
+
+class getHeroRequest(BaseModel):
+    id: int
+
+@router.post("/get_hero")
+def get_hero(request: getHeroRequest):
+    return get_hero_by_id(request.id)
 
 @router.post("/draft")
 def draft_hero(request: draftRequest):
     drafted = []
     for i in range(request.count):
-        id = random.choice(heroes)["id"]
+        id = random.choice(heroes_data)["id"]
         drafted.append(id)
     return drafted
 
 @router.post("/draft_role")
 def draft_hero_by_role(request: draftRequest):
     drafted = []
-    filtered_heroes = [hero for hero in heroes if hero["role"] == request.role]
+    filtered_heroes = [hero for hero in heroes_data if hero["role"] == request.role]
     for i in range(request.count):
         id = random.choice(filtered_heroes)["id"]
         drafted.append(id)
