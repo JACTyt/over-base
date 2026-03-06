@@ -9,3 +9,7 @@ dist
 data/compositions-6x6.json
 data/compositions.json
 backend/routes/compositions.py
+
+.vscode
+.angular
+.idea
