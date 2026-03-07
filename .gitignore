@@ -13,3 +13,5 @@ backend/routes/compositions.py
 .vscode
 .angular
 .idea
+
+.env

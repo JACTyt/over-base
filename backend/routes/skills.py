@@ -41,12 +41,6 @@ def combine_skills(request: skillsRequest):
         })
     return {"combination": combined}
 
-bc = skillsRequest()
-bc.count = 2
-req = combine_skills(bc)
-print(req)
-
-
 @router.post("/skills_ban")
 def ban_skills(request: skillsRequest):
     combined = []

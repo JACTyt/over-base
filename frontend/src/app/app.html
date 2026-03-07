@@ -18,11 +18,34 @@
             [src]="'/assets/icons/' + hero.name.replace(':', '') + '.png'"
             alt="{{ hero.name }}"
             class="w-16 h-16 rounded-full mb-2"
-          >
+          />
           <p class="font-bold text-lg">{{ hero.name }}</p>
           <p class="text-gray-300">{{ hero.role }}</p>
         </li>
       }
     </ul>
+
+    <button
+      (click)="predictBattle()"
+      class="mt-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded"
+    >
+      Start battle
+    </button>
+    <div *ngIf="battleStory()">
+      <h2 class="text-xl font-semibold mt-4 mb-2">Battle Story:</h2>
+      <p class="bg-gray-800 p-4 rounded-lg shadow text-gray-300 whitespace-pre-wrap">
+        {{ battleStory() }}
+      </p>
+
+      <h2 class="text-xl font-semibold mt-4 mb-2 text-green-400">Winner:</h2>
+      <p class="bg-gray-800 p-4 rounded-lg shadow text-green-300 font-bold text-lg">
+        <img
+          [src]="'/assets/icons/' + battleWinner().replace(':', '') + '.png'"
+          alt="{{ battleWinner() }}"
+          class="w-16 h-16 rounded-full mb-2"
+        />
+        {{ battleWinner() }}
+      </p>
+    </div>
   </div>
 </main>

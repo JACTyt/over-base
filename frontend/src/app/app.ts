@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { Sign } from 'node:crypto';
 /*
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
+
 export class App {
   protected readonly title = signal('OverBase');
 
@@ -38,6 +40,26 @@ export class App {
           this.heroSummaries.update((list) => [...list, summary]);
         });
       });
+    });
+  }
+
+  battleStory = signal('');
+  battleWinner = signal('');
+  
+  predictBattle() {
+    const heroIds = this.heroes();
+    if (heroIds.length < 2) {
+      console.error('Need at least 2 heroes for battle');
+      return;
+    }
+    
+    this.http.post<any>('http://localhost:8000/battle_predict', {
+      hero1_id: heroIds[0],
+      hero2_id: heroIds[1]
+    }).subscribe((battle) => {
+      console.log('Battle Result:', battle);
+      this.battleStory.set(battle.story);
+      this.battleWinner.set(battle.winner);
     });
   }
 }
