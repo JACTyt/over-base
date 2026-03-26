@@ -1,0 +1,88 @@
+:host {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(var(--container-max), 100%);
+}
+
+.stage-panel {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-xl);
+  border: var(--border-soft);
+  background: var(--surface-glass);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-panel);
+  padding: var(--space-5);
+  animation: rise-in var(--ease-enter);
+}
+
+.panel-header h1 {
+  margin: 0.45rem 0;
+  line-height: 1.05;
+  font-size: clamp(2.2rem, 4.8vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin: 0;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffd5d5;
+  background: rgba(255, 107, 74, 0.22);
+  border: 1px solid rgba(255, 162, 130, 0.42);
+}
+
+.panel-subtitle {
+  margin: 0;
+  font-size: clamp(1.02rem, 0.92rem + 0.3vw, 1.2rem);
+  color: var(--color-text-muted);
+  max-width: 40rem;
+}
+
+.battles-grid {
+  margin-top: var(--space-5);
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.battle-card {
+  border: var(--border-card);
+  border-radius: var(--radius-lg);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-4);
+}
+
+.battle-card h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.battle-card p {
+  margin: var(--space-2) 0 0;
+  color: var(--color-text-muted);
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 720px) {
+  .stage-panel {
+    padding: var(--space-3);
+  }
+}
