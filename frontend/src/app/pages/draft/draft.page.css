@@ -1,0 +1,213 @@
+:host {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(var(--container-max), 100%);
+}
+
+.stage-panel {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-xl);
+  border: var(--border-soft);
+  background: var(--surface-glass);
+  backdrop-filter: blur(12px);
+  box-shadow: var(--shadow-panel);
+  padding: var(--space-5);
+  animation: rise-in var(--ease-enter);
+}
+
+.panel-header h1 {
+  margin: 0.45rem 0;
+  line-height: 1.05;
+  font-size: clamp(2.6rem, 5.8vw, 4rem);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin: 0;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffe4bf;
+  background: rgba(255, 140, 45, 0.22);
+  border: 1px solid rgba(255, 192, 132, 0.42);
+}
+
+.panel-subtitle {
+  margin: 0;
+  font-size: clamp(1.05rem, 0.95rem + 0.35vw, 1.28rem);
+  color: var(--color-text-muted);
+  max-width: 34rem;
+}
+
+.action-row {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.action-button {
+  border: 0;
+  border-radius: var(--radius-sm);
+  padding: 0.72rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fff;
+  cursor: pointer;
+  transition: transform var(--ease-quick), box-shadow var(--ease-standard), filter var(--ease-standard);
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+}
+
+.action-button:active {
+  transform: translateY(0);
+}
+
+.action-button-primary {
+  background: linear-gradient(140deg, var(--color-primary-400) 0%, var(--color-primary-700) 100%);
+  box-shadow: var(--shadow-primary);
+}
+
+.action-button-danger {
+  background: linear-gradient(140deg, var(--color-danger-400) 0%, var(--color-danger-700) 100%);
+  box-shadow: var(--shadow-danger);
+}
+
+.heroes-section {
+  margin-top: var(--space-5);
+}
+
+.heroes-section h2,
+.battle-section h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
+}
+
+.empty-state {
+  margin-top: 0.65rem;
+  color: var(--color-text-soft);
+}
+
+.hero-grid {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.9rem;
+}
+
+.hero-card {
+  padding: 0.95rem;
+  border-radius: var(--radius-lg);
+  border: var(--border-card);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  animation: card-pop 420ms ease both;
+}
+
+.hero-avatar-wrap {
+  display: grid;
+  place-items: center;
+}
+
+.hero-avatar {
+  width: 4.25rem;
+  height: 4.25rem;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.36);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1);
+}
+
+.hero-name {
+  margin: 0.65rem 0 0;
+  font-weight: 700;
+}
+
+.hero-role {
+  margin: 0.2rem 0 0;
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
+}
+
+.battle-section {
+  margin-top: var(--space-5);
+  display: grid;
+  gap: 0.65rem;
+}
+
+.battle-story {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border: var(--border-story);
+  background: var(--surface-story);
+  color: #e6e0d7;
+  white-space: pre-wrap;
+}
+
+.winner-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: fit-content;
+  padding: 0.75rem 0.95rem;
+  border-radius: var(--radius-md);
+  color: #ebfff2;
+  background: linear-gradient(130deg, var(--color-success-400), var(--color-success-700));
+  border: 1px solid rgba(149, 255, 205, 0.5);
+}
+
+.winner-card p {
+  margin: 0;
+  font-weight: 700;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 720px) {
+  .stage-panel {
+    padding: var(--space-3);
+  }
+
+  .action-row {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .action-button {
+    width: 100%;
+  }
+}

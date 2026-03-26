@@ -9,13 +9,13 @@
     </div>
 
     <nav class="side-menu" aria-label="Main navigation">
-      <a href="#" class="side-link side-link-active" title="Draft Arena">
+      <a routerLink="/draft" routerLinkActive="side-link-active" [routerLinkActiveOptions]="{ exact: true }" class="side-link" title="Draft Arena">
         <svg viewBox="0 0 24 24" fill="none" class="side-link-icon" aria-hidden="true">
           <path d="M3 7H21M3 12H21M3 17H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
         </svg>
         <span class="side-link-text" *ngIf="!sidebarCollapsed()">Draft Arena</span>
       </a>
-      <a href="#" class="side-link" title="Compositions">
+      <a routerLink="/compositions" routerLinkActive="side-link-active" class="side-link" title="Compositions">
         <svg viewBox="0 0 24 24" fill="none" class="side-link-icon" aria-hidden="true">
           <rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2" />
           <rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2" />
@@ -57,54 +57,6 @@
   <section class="arena">
     <div class="light-orb light-orb-left" aria-hidden="true"></div>
     <div class="light-orb light-orb-right" aria-hidden="true"></div>
-
-    <section class="stage-panel">
-      <header class="panel-header">
-        <p class="eyebrow">Strategic Simulator</p>
-        <h1>{{ title() }}</h1>
-        <p class="panel-subtitle">Draft heroes, launch the duel, and watch the story unfold.</p>
-      </header>
-
-      <div class="action-row">
-        <button (click)="sendRequest()" class="action-button action-button-primary">Draft Heroes</button>
-        <button (click)="predictBattle()" class="action-button action-button-danger">Start Battle</button>
-      </div>
-
-      <section class="heroes-section">
-        <h2>Drafted Heroes</h2>
-        <p class="empty-state" *ngIf="heroSummaries().length === 0">No heroes drafted yet. Hit Draft Heroes to begin.</p>
-
-        <ul class="hero-grid">
-          @for (hero of heroSummaries(); track $index) {
-            <li class="hero-card">
-              <div class="hero-avatar-wrap">
-                <img
-                  [src]="'/assets/icons/' + hero.name.replace(':', '') + '.png'"
-                  alt="{{ hero.name }}"
-                  class="hero-avatar"
-                />
-              </div>
-              <p class="hero-name">{{ hero.name }}</p>
-              <p class="hero-role">{{ hero.role }}</p>
-            </li>
-          }
-        </ul>
-      </section>
-
-      <section *ngIf="battleStory()" class="battle-section">
-        <h2>Battle Story</h2>
-        <p class="battle-story">{{ battleStory() }}</p>
-
-        <h2>Winner</h2>
-        <div class="winner-card">
-          <img
-            [src]="'/assets/icons/' + battleWinner().replace(':', '') + '.png'"
-            alt="{{ battleWinner() }}"
-            class="hero-avatar"
-          />
-          <p>{{ battleWinner() }}</p>
-        </div>
-      </section>
-    </section>
+    <router-outlet></router-outlet>
   </section>
 </main>
