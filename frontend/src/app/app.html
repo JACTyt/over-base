@@ -1,51 +1,69 @@
-<main class="min-h-screen flex flex-col items-center justify-center bg-gray-900 p-8 space-y-6">
-  <h1 class="text-3xl font-bold text-white">{{ title() }}</h1>
-
-  <button
-    (click)="sendRequest()"
-    class="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded"
-  >
-    Draft Heroes
-  </button>
-
-  <div class="text-white">
-    <h2 class="text-xl font-semibold mb-2">Drafted Heroes:</h2>
-
-    <ul class="space-y-2">
-      @for (hero of heroSummaries(); track $index) {
-        <li class="bg-gray-800 p-4 rounded-lg shadow">
-          <img
-            [src]="'/assets/icons/' + hero.name.replace(':', '') + '.png'"
-            alt="{{ hero.name }}"
-            class="w-16 h-16 rounded-full mb-2"
-          />
-          <p class="font-bold text-lg">{{ hero.name }}</p>
-          <p class="text-gray-300">{{ hero.role }}</p>
-        </li>
-      }
-    </ul>
-
-    <button
-      (click)="predictBattle()"
-      class="mt-4 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded"
-    >
-      Start battle
-    </button>
-    <div *ngIf="battleStory()">
-      <h2 class="text-xl font-semibold mt-4 mb-2">Battle Story:</h2>
-      <p class="bg-gray-800 p-4 rounded-lg shadow text-gray-300 whitespace-pre-wrap">
-        {{ battleStory() }}
-      </p>
-
-      <h2 class="text-xl font-semibold mt-4 mb-2 text-green-400">Winner:</h2>
-      <p class="bg-gray-800 p-4 rounded-lg shadow text-green-300 font-bold text-lg">
-        <img
-          [src]="'/assets/icons/' + battleWinner().replace(':', '') + '.png'"
-          alt="{{ battleWinner() }}"
-          class="w-16 h-16 rounded-full mb-2"
-        />
-        {{ battleWinner() }}
-      </p>
+<main class="app-shell">
+  <aside class="side-nav">
+    <div class="side-brand">
+      <p class="panel-title">{{ title() }}</p>
+      <p class="brand-caption">Tactical Console</p>
     </div>
-  </div>
+
+    <nav class="side-menu" aria-label="Main navigation">
+      <a href="#" class="side-link side-link-active">Draft Arena</a>
+      <a href="#" class="side-link">Compositions</a>
+      <a href="#" class="side-link">Skills Lab</a>
+      <a href="#" class="side-link">Battle Logs</a>
+    </nav>
+  </aside>
+
+  <section class="arena">
+    <div class="light-orb light-orb-left" aria-hidden="true"></div>
+    <div class="light-orb light-orb-right" aria-hidden="true"></div>
+
+    <section class="stage-panel">
+      <header class="panel-header">
+        <p class="eyebrow">Strategic Simulator</p>
+        <h1>{{ title() }}</h1>
+        <p class="panel-subtitle">Draft heroes, launch the duel, and watch the story unfold.</p>
+      </header>
+
+      <div class="action-row">
+        <button (click)="sendRequest()" class="action-button action-button-primary">Draft Heroes</button>
+        <button (click)="predictBattle()" class="action-button action-button-danger">Start Battle</button>
+      </div>
+
+      <section class="heroes-section">
+        <h2>Drafted Heroes</h2>
+        <p class="empty-state" *ngIf="heroSummaries().length === 0">No heroes drafted yet. Hit Draft Heroes to begin.</p>
+
+        <ul class="hero-grid">
+          @for (hero of heroSummaries(); track $index) {
+            <li class="hero-card">
+              <div class="hero-avatar-wrap">
+                <img
+                  [src]="'/assets/icons/' + hero.name.replace(':', '') + '.png'"
+                  alt="{{ hero.name }}"
+                  class="hero-avatar"
+                />
+              </div>
+              <p class="hero-name">{{ hero.name }}</p>
+              <p class="hero-role">{{ hero.role }}</p>
+            </li>
+          }
+        </ul>
+      </section>
+
+      <section *ngIf="battleStory()" class="battle-section">
+        <h2>Battle Story</h2>
+        <p class="battle-story">{{ battleStory() }}</p>
+
+        <h2>Winner</h2>
+        <div class="winner-card">
+          <img
+            [src]="'/assets/icons/' + battleWinner().replace(':', '') + '.png'"
+            alt="{{ battleWinner() }}"
+            class="hero-avatar"
+          />
+          <p>{{ battleWinner() }}</p>
+        </div>
+      </section>
+    </section>
+  </section>
 </main>

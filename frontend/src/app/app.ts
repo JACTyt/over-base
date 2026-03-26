@@ -1,8 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Sign } from 'node:crypto';
 /*
 @Component({
   selector: 'app-root',
@@ -14,7 +12,7 @@ import { Sign } from 'node:crypto';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule],
+  imports: [CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
