@@ -43,13 +43,13 @@
       <button
         class="side-toggle"
         (click)="toggleSidebar()"
-        [attr.aria-label]="sidebarCollapsed() ? 'Expand navigation' : 'Collapse navigation'"
-        [title]="sidebarCollapsed() ? 'Expand navigation' : 'Collapse navigation'"
+        [attr.aria-label]="sidebarCollapsed() ? 'Show' : 'Hide'"
+        [title]="sidebarCollapsed() ? 'Show' : 'Hide'"
       >
         <svg viewBox="0 0 24 24" fill="none" class="toggle-icon" [class.toggle-icon-collapsed]="sidebarCollapsed()" aria-hidden="true">
           <path d="M14 18L8 12L14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        <span class="side-toggle-label" *ngIf="!sidebarCollapsed()">Collapse Navigation</span>
+        <span class="side-toggle-label" *ngIf="!sidebarCollapsed()">Hide</span>
       </button>
     </div>
   </aside>
