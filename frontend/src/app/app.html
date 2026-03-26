@@ -1,16 +1,57 @@
-<main class="app-shell">
+<main class="app-shell" [class.nav-collapsed]="sidebarCollapsed()">
   <aside class="side-nav">
-    <div class="side-brand">
-      <p class="panel-title">{{ title() }}</p>
-      <p class="brand-caption">Tactical Console</p>
+    <div class="side-nav-head">
+      <div class="side-brand">
+        <p class="side-monogram" *ngIf="sidebarCollapsed()">OB</p>
+        <p class="panel-title" *ngIf="!sidebarCollapsed()">{{ title() }}</p>
+        <p class="brand-caption" *ngIf="!sidebarCollapsed()">Tactical Console</p>
+      </div>
     </div>
 
     <nav class="side-menu" aria-label="Main navigation">
-      <a href="#" class="side-link side-link-active">Draft Arena</a>
-      <a href="#" class="side-link">Compositions</a>
-      <a href="#" class="side-link">Skills Lab</a>
-      <a href="#" class="side-link">Battle Logs</a>
+      <a href="#" class="side-link side-link-active" title="Draft Arena">
+        <svg viewBox="0 0 24 24" fill="none" class="side-link-icon" aria-hidden="true">
+          <path d="M3 7H21M3 12H21M3 17H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span class="side-link-text" *ngIf="!sidebarCollapsed()">Draft Arena</span>
+      </a>
+      <a href="#" class="side-link" title="Compositions">
+        <svg viewBox="0 0 24 24" fill="none" class="side-link-icon" aria-hidden="true">
+          <rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2" />
+          <rect x="13" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2" />
+          <rect x="4" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2" />
+          <rect x="13" y="13" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2" />
+        </svg>
+        <span class="side-link-text" *ngIf="!sidebarCollapsed()">Compositions</span>
+      </a>
+      <a href="#" class="side-link" title="Skills Lab">
+        <svg viewBox="0 0 24 24" fill="none" class="side-link-icon" aria-hidden="true">
+          <path d="M12 3L14.9 9.1L21.5 9.8L16.5 14.3L18 21L12 17.5L6 21L7.5 14.3L2.5 9.8L9.1 9.1L12 3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+        </svg>
+        <span class="side-link-text" *ngIf="!sidebarCollapsed()">Skills Lab</span>
+      </a>
+      <a href="#" class="side-link" title="Battle Logs">
+        <svg viewBox="0 0 24 24" fill="none" class="side-link-icon" aria-hidden="true">
+          <path d="M7 5H17M7 9H17M7 13H13M7 17H12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          <rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="2" />
+        </svg>
+        <span class="side-link-text" *ngIf="!sidebarCollapsed()">Battle Logs</span>
+      </a>
     </nav>
+
+    <div class="side-footer">
+      <button
+        class="side-toggle"
+        (click)="toggleSidebar()"
+        [attr.aria-label]="sidebarCollapsed() ? 'Expand navigation' : 'Collapse navigation'"
+        [title]="sidebarCollapsed() ? 'Expand navigation' : 'Collapse navigation'"
+      >
+        <svg viewBox="0 0 24 24" fill="none" class="toggle-icon" [class.toggle-icon-collapsed]="sidebarCollapsed()" aria-hidden="true">
+          <path d="M14 18L8 12L14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <span class="side-toggle-label" *ngIf="!sidebarCollapsed()">Collapse Navigation</span>
+      </button>
+    </div>
   </aside>
 
   <section class="arena">

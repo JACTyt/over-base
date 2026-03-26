@@ -19,11 +19,16 @@ import { HttpClient } from '@angular/common/http';
 
 export class App {
   protected readonly title = signal('OverBase');
+  sidebarCollapsed = signal(false);
 
   heroes = signal<number[]>([]); // IDs
   heroSummaries = signal<any[]>([]); // full hero info
 
   constructor(private http: HttpClient) {}
+
+  toggleSidebar() {
+    this.sidebarCollapsed.update((collapsed) => !collapsed);
+  }
 
   sendRequest() {
     // Step 1: Call /draft
