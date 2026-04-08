@@ -1,9 +1,10 @@
 .app-shell {
-	min-height: 100vh;
+	height: 100vh;
 	display: grid;
 	grid-template-columns: var(--sidebar-width, 240px) minmax(0, 1fr);
 	background: var(--color-bg-page);
 	transition: grid-template-columns 240ms ease;
+	overflow: hidden;
 }
 
 .app-shell.nav-collapsed {
@@ -21,6 +22,7 @@
 	flex-direction: column;
 	gap: var(--space-4);
 	overflow: hidden;
+	height: 100%;
 }
 
 .side-nav-head {
@@ -28,6 +30,7 @@
 	align-items: flex-start;
 	justify-content: flex-start;
 	gap: var(--space-1);
+	flex-shrink: 0;
 }
 
 .side-brand {
@@ -70,10 +73,37 @@
 	flex: 1;
 	align-content: start;
 	grid-auto-rows: max-content;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding-right: 0.25rem;
+}
+
+.side-menu::-webkit-scrollbar {
+	width: 8px;
+}
+
+.side-menu::-webkit-scrollbar-track {
+	background: rgba(100, 150, 255, 0.08);
+	border-radius: 4px;
+	margin: var(--space-2) 0;
+}
+
+.side-menu::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg, #3199ff 0%, #0054d6 100%);
+	border-radius: 4px;
+	border: 2px solid transparent;
+	background-clip: padding-box;
+	transition: all 0.2s ease;
+}
+
+.side-menu::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(180deg, #4aa8ff 0%, #0066ff 100%);
+	background-clip: padding-box;
+	box-shadow: inset 0 0 4px rgba(49, 153, 255, 0.4);
 }
 
 .side-footer {
-	margin-top: auto;
+	flex-shrink: 0;
 	padding-top: var(--space-2);
 	border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
@@ -188,14 +218,39 @@
 	min-height: 100vh;
 	padding: var(--space-6) 1.25rem;
 	display: flex;
-	align-items: center;
+	align-items: flex-start;
 	justify-content: center;
 	background:
 		radial-gradient(circle at 16% 18%, rgba(255, 155, 60, 0.2), transparent 34%),
 		radial-gradient(circle at 84% 14%, rgba(44, 160, 255, 0.22), transparent 36%),
 		linear-gradient(135deg, var(--color-bg-stage-a) 0%, var(--color-bg-stage-b) 52%, var(--color-bg-stage-c) 100%);
 	color: var(--color-text);
-	overflow: hidden;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.arena::-webkit-scrollbar {
+	width: 8px;
+}
+
+.arena::-webkit-scrollbar-track {
+	background: rgba(255, 181, 160, 0.08);
+	border-radius: 4px;
+	margin: var(--space-2) 0;
+}
+
+.arena::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg, #ff7248 0%, #ffb5a0 100%);
+	border-radius: 4px;
+	border: 2px solid transparent;
+	background-clip: padding-box;
+	transition: all 0.2s ease;
+}
+
+.arena::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(180deg, #ff6037 0%, #ffc4b0 100%);
+	background-clip: padding-box;
+	box-shadow: inset 0 0 4px rgba(255, 114, 72, 0.4);
 }
 
 .light-orb {

@@ -1,24 +1,269 @@
-<section class="stage-panel battle-logs-panel">
-  <header class="panel-header">
-    <p class="eyebrow">Match History</p>
-    <h1>Battle Logs</h1>
-    <p class="panel-subtitle">Review past battles, analyze performance, and study enemy compositions.</p>
-  </header>
+<div class="battle-logs-wrapper" [class.sidebar-right-hidden]="rightSidebarHidden()">
+  <!-- Center Content: Battle Logs -->
+  <main class="content-area">
+    <section class="stage-panel battle-logs-panel">
+      <header class="panel-header">
+        <p class="eyebrow">Match History</p>
+        <h1>Battle Logs</h1>
+        <p class="panel-subtitle">Click a battle to expand and manage on the right panel.</p>
+      </header>
 
-  <section class="battles-grid">
-    <article class="battle-card">
-      <h2>Recent Battles</h2>
-      <p>Chronological list of your last matches with win/loss outcomes and key statistics.</p>
-    </article>
+      <section class="battle-toolbar">
+        <div class="quick-filter-row">
+          <button class="quick-filter-chip" type="button" [class.active]="isQuickFilterActive('all')" (click)="applyQuickFilter('all')">All</button>
+          <button class="quick-filter-chip" type="button" [class.active]="isQuickFilterActive('favorites')" (click)="applyQuickFilter('favorites')">Favorite</button>
+          @for (tag of availableTags(); track tag) {
+            <button class="quick-filter-chip" type="button" [class.active]="isQuickFilterActive(tag)" (click)="applyQuickFilter(tag)">
+              #{{ tag }}
+            </button>
+          }
 
-    <article class="battle-card">
-      <h2>Performance Analysis</h2>
-      <p>Track hero usage rates, win percentages, and KDA ratios across your match history.</p>
-    </article>
+          <div class="quick-add-tag-wrap">
+            <button class="quick-add-tag-btn" type="button" (click)="toggleQuickTagMenu($event)">Add tag</button>
+            <div class="quick-add-tag-menu" *ngIf="quickTagMenuOpen()" (click)="$event.stopPropagation()">
+              <input
+                class="text-input"
+                type="text"
+                placeholder="Tag name"
+                [value]="toolbarTagInput()"
+                (input)="setToolbarTagInput($event)"
+              />
+              <label class="filter-control" style="margin-bottom: 0;">
+                <span>Icon</span>
+                <select [value]="toolbarTagIconChoice()" (change)="setToolbarTagIconChoice($event)">
+                  @for (icon of tagIconOptions; track icon) {
+                    <option [value]="icon">{{ icon }}</option>
+                  }
+                  <option value="custom">Custom</option>
+                </select>
+              </label>
+              <input
+                class="text-input"
+                type="text"
+                placeholder="Custom icon"
+                [value]="toolbarTagCustomIcon()"
+                (input)="setToolbarTagCustomIcon($event)"
+                *ngIf="toolbarTagIconChoice() === 'custom'"
+              />
+              <button
+                class="secondary-button"
+                type="button"
+                (click)="createTagFromQuickMenu()"
+                [disabled]="!toolbarTagInput().trim()"
+              >
+                Add
+              </button>
+            </div>
+          </div>
+        </div>
 
-    <article class="battle-card">
-      <h2>Replay Export</h2>
-      <p>Save and export battle summaries for sharing or deeper statistical review.</p>
-    </article>
-  </section>
-</section>
+        <div class="quick-tag-manager">
+          <p class="quick-tag-caption" *ngIf="getTagTargetBattle(); else selectBattleHint">
+            Tags for {{ getTagTargetBattle()!.heroOne.name }} vs {{ getTagTargetBattle()!.heroTwo.name }}
+          </p>
+          <ng-template #selectBattleHint>
+            <p class="quick-tag-caption muted">Select a battle to see and manage tags here.</p>
+          </ng-template>
+
+          <div class="quick-tag-chip-row" *ngIf="getTagTargetBattle()">
+            @for (tag of getTagTargetBattle()!.tags; track tag.name) {
+              <span class="quick-tag-chip">
+                <span>{{ tag.icon }} {{ tag.name }}</span>
+                <button class="quick-tag-remove" type="button" title="Remove tag" (click)="removeTagFromSelectedBattle(tag.name)">×</button>
+              </span>
+            }
+          </div>
+        </div>
+      </section>
+
+      <section class="battles-grid">
+        <p class="empty-state" *ngIf="battleLogs().length === 0">
+          No battle logs yet. Run a battle from Draft to generate history.
+        </p>
+
+        <p class="empty-state" *ngIf="battleLogs().length > 0 && visibleLogs().length === 0">
+          No battles match your current filters.
+        </p>
+
+        @for (log of visibleLogs(); track log.id) {
+          <article class="battle-card" [class.battle-card-selected]="selectedBattleId() === log.id">
+            <div class="battle-card-top">
+              <button class="battle-card-header" type="button" (click)="toggleBattle(log.id)">
+                <div class="battle-header-main">
+                  <div class="battle-eyebrow-row" *ngIf="log.isFavorite || log.tags.length > 0">
+                    <span class="eyebrow battle-eyebrow-favorite" *ngIf="log.isFavorite">
+                      {{ log.favoriteIcon }} Favorite
+                    </span>
+                    @for (tag of log.tags; track tag.name) {
+                      <span class="eyebrow battle-eyebrow-tag">{{ tag.icon }} {{ tag.name }}</span>
+                    }
+                  </div>
+                  <p class="battle-time">{{ formatTimestamp(log.timestamp) }}</p>
+                  <div class="matchup-row">
+                    <div class="fighter-chip">
+                      <img class="fighter-avatar" [src]="log.heroOne.avatar" [alt]="log.heroOne.name" />
+                      <span>{{ log.heroOne.name }}</span>
+                    </div>
+                    <span class="vs-text">VS</span>
+                    <div class="fighter-chip">
+                      <img class="fighter-avatar" [src]="log.heroTwo.avatar" [alt]="log.heroTwo.name" />
+                      <span>{{ log.heroTwo.name }}</span>
+                    </div>
+                  </div>
+                  <p class="battle-winner">Winner: {{ log.winner }}</p>
+                </div>
+              </button>
+
+              <div class="battle-dropdown-toggle">
+                <button class="battle-expand-btn" type="button" (click)="toggleBattle(log.id)" [title]="isBattleExpanded(log.id) ? 'Hide battle' : 'Show battle'" [attr.aria-expanded]="isBattleExpanded(log.id)">
+                  <span class="battle-toggle-icon" [class.expanded]="isBattleExpanded(log.id)" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M8 10l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </span>
+                </button>
+                <button class="dropdown-btn" type="button" (click)="toggleBattleMenu(log.id, $event)" title="Battle controls" [class.active]="isBattleMenuOpen(log.id)">⋮</button>
+                <div class="battle-context-menu" *ngIf="isBattleMenuOpen(log.id)">
+                  <div class="context-menu-item-with-submenu">
+                    <button class="context-menu-button" type="button">Add Tag ▸</button>
+                    <div class="context-submenu">
+                      @if (availableTags().length === 0) {
+                        <p class="context-submenu-empty">No tags yet. Create first tag below.</p>
+                      } @else {
+                        @for (tag of availableTags(); track tag) {
+                          <button
+                            class="context-menu-button context-submenu-button"
+                            type="button"
+                            (click)="addExistingTagFromMenu(log.id, tag, $event)"
+                            [disabled]="isTagAlreadyOnBattle(log, tag)"
+                          >
+                            #{{ tag }}
+                          </button>
+                        }
+                      }
+                    </div>
+                  </div>
+                  <button class="context-menu-button" type="button" (click)="toggleFavoriteFromMenu(log.id, $event)">
+                    {{ log.favoriteIcon }} {{ log.isFavorite ? 'Unfavorite' : 'Favorite' }}
+                  </button>
+                  <button class="context-menu-button context-menu-danger" type="button" (click)="removeBattleFromMenu(log.id, $event)">
+                    Remove Battle
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="battle-story-wrap" [class.battle-story-wrap-hidden]="!isBattleExpanded(log.id)">
+              <p class="battle-story">{{ log.story }}</p>
+            </div>
+          </article>
+        }
+      </section>
+    </section>
+  </main>
+
+  <!-- Right Sidebar Toggle Button -->
+  <button class="sidebar-toggle-fixed" type="button" (click)="toggleRightSidebar()" [title]="rightSidebarHidden() ? 'Show controls' : 'Hide controls'">
+    <svg viewBox="0 0 24 24" fill="none" class="toggle-fixed-icon" [class.rotated]="!rightSidebarHidden()" aria-hidden="true">
+      <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+
+  <!-- Right Sidebar: Filter & Sort, Tags & Battle Lists -->
+  <aside class="sidebar sidebar-right" [class.sidebar-hidden]="rightSidebarHidden()">
+    <div class="sidebar-scrollable-content">
+    <div class="sidebar-section">
+      <div class="sidebar-section-header">
+        <h2>Filter & Sort</h2>
+      </div>
+      <div class="sidebar-section-content">
+        <label class="filter-control">
+          <span>Favorites</span>
+          <select [value]="favoriteFilter()" (change)="setFavoriteFilter($event)">
+            <option value="all">All</option>
+            <option value="favorites">Favorites Only</option>
+            <option value="non-favorites">Non-Favorites</option>
+          </select>
+        </label>
+
+        <label class="filter-control">
+          <span>Tag</span>
+          <select [value]="tagFilter()" (change)="setTagFilter($event)">
+            <option value="all">All Tags</option>
+            <option value="__tagged__">Has Tags</option>
+            <option value="__untagged__">Without Tags</option>
+            @for (tag of availableTags(); track tag) {
+              <option [value]="tag">{{ tag }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="filter-control">
+          <span>List</span>
+          <select [value]="listFilter()" (change)="setListFilter($event)">
+            <option value="all">All Lists</option>
+            <option value="__listed__">In Any List</option>
+            <option value="__unlisted__">No List</option>
+            @for (listName of battleLists(); track listName) {
+              <option [value]="listName">{{ listName }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="filter-control">
+          <span>Sort</span>
+          <select [value]="sortMode()" (change)="setSortMode($event)">
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+            <option value="favorites-first">Favorites First</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Battle Lists Section -->
+    <div class="sidebar-section">
+      <div class="sidebar-section-header">
+        <h2>Battle Lists</h2>
+      </div>
+      <div class="sidebar-section-content">
+        <div class="list-create-row">
+          <input
+            class="text-input"
+            type="text"
+            placeholder="Create list"
+            [value]="listNameInput()"
+            (input)="setListNameInput($event)"
+          />
+          <button class="secondary-button" type="button" (click)="createBattleList()">Add</button>
+        </div>
+
+        <div class="list-chip-row" *ngIf="battleLists().length > 0">
+          @for (listName of battleLists(); track listName) {
+            <button class="list-chip" type="button" (click)="removeBattleList(listName)">
+              {{ listName }}
+              <span class="remove-chip">x</span>
+            </button>
+          }
+        </div>
+
+        <div class="list-checkbox-grid" *ngIf="getSelectedBattle() && battleLists().length > 0">
+          <p class="section-label" style="grid-column: 1 / -1; margin: var(--space-2) 0 0;">Add to Lists</p>
+          @for (listName of battleLists(); track listName) {
+            <label class="list-checkbox-item">
+              <input
+                type="checkbox"
+                [checked]="isBattleInList(getSelectedBattle()!, listName)"
+                (change)="onBattleListToggle(getSelectedBattle()!.id, listName, $event)"
+              />
+              <span>{{ listName }}</span>
+            </label>
+          }
+        </div>
+      </div>
+    </div>
+    </div>
+  </aside>
+</div>
