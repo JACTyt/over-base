@@ -1,0 +1,89 @@
+<section class="stage-panel hero-info-panel">
+  <header class="panel-header">
+    <p class="eyebrow">Hero Database</p>
+    <h1>Hero Info</h1>
+    <p class="panel-subtitle">Browse heroes and inspect their bio, appearance, role, skills, and ultimate.</p>
+  </header>
+
+  <section class="filters-row">
+    <label class="filter-field">
+      <span>Role</span>
+      <select [ngModel]="roleFilter()" (ngModelChange)="onRoleChange($event)">
+        <option value="all">All</option>
+        <option value="tank">Tank</option>
+        <option value="damage">Damage</option>
+        <option value="support">Support</option>
+      </select>
+    </label>
+
+    <label class="filter-field filter-search">
+      <span>Search</span>
+      <input
+        type="text"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+        placeholder="Find hero by name"
+      />
+    </label>
+  </section>
+
+  <p class="status-row" *ngIf="loading()">Loading hero data...</p>
+  <p class="status-row status-error" *ngIf="errorMessage()">{{ errorMessage() }}</p>
+
+  <section class="hero-layout" *ngIf="!loading() && !errorMessage()">
+    <aside class="hero-list">
+      <button
+        *ngFor="let hero of filteredHeroes(); trackBy: trackById"
+        type="button"
+        class="hero-list-item"
+        [class.hero-list-item-active]="selectedHero()?.id === hero.id"
+        (click)="openHero(hero.id)"
+      >
+        <img [src]="getAvatarPath(hero.name)" alt="{{ hero.name }}" class="hero-avatar" />
+        <span class="hero-meta">
+          <span class="hero-name">{{ hero.name }}</span>
+          <span class="hero-role">{{ hero.role }}</span>
+        </span>
+      </button>
+    </aside>
+
+    <article class="hero-details" *ngIf="selectedHero() as hero">
+      <div class="hero-head">
+        <img [src]="getAvatarPath(hero.name)" alt="{{ hero.name }}" class="hero-avatar hero-avatar-large" />
+        <div>
+          <h2>{{ hero.name }}</h2>
+          <p class="hero-role-tag">{{ hero.role }}</p>
+          <p class="hero-side-tag">{{ hero.side }}</p>
+        </div>
+      </div>
+
+      <section class="ability-block">
+        <h3>Bio</h3>
+        <p>{{ hero.bio }}</p>
+      </section>
+
+      <section class="ability-block">
+        <h3>Appearance</h3>
+        <p>{{ hero.appearance }}</p>
+      </section>
+
+      <section class="ability-block">
+        <h3>Skills</h3>
+        <ul *ngIf="hero.skills.length > 0; else noSkills">
+          <li *ngFor="let skill of hero.skills">{{ skill }}</li>
+        </ul>
+        <ng-template #noSkills>
+          <p class="empty-copy">No skill data available yet for this hero.</p>
+        </ng-template>
+      </section>
+
+      <section class="ability-block">
+        <h3>Ultimate</h3>
+        <p *ngIf="hero.ultimate; else noUltimate">{{ hero.ultimate }}</p>
+        <ng-template #noUltimate>
+          <p class="empty-copy">No ultimate data available yet for this hero.</p>
+        </ng-template>
+      </section>
+    </article>
+  </section>
+</section>

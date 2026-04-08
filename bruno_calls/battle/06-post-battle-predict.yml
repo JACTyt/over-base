@@ -1,0 +1,22 @@
+info:
+  name: POST /battle_predict
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{api}}/battle_predict"
+  body:
+    type: json
+    data: |-
+      {
+        "hero1_id": 2,
+        "hero2_id": 4
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

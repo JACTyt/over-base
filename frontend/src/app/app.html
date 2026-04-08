@@ -15,6 +15,13 @@
         </svg>
         <span class="side-link-text" *ngIf="!sidebarCollapsed()">Draft Arena</span>
       </a>
+      <a routerLink="/hero-info" routerLinkActive="side-link-active" class="side-link" title="Hero Info">
+        <svg viewBox="0 0 24 24" fill="none" class="side-link-icon" aria-hidden="true">
+          <circle cx="12" cy="8" r="3" stroke="currentColor" stroke-width="2" />
+          <path d="M5 20C5 16.5 8 14 12 14C16 14 19 16.5 19 20" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+        </svg>
+        <span class="side-link-text" *ngIf="!sidebarCollapsed()">Hero Info</span>
+      </a>
       <a routerLink="/compositions" routerLinkActive="side-link-active" class="side-link" title="Compositions">
         <svg viewBox="0 0 24 24" fill="none" class="side-link-icon" aria-hidden="true">
           <rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="2" />

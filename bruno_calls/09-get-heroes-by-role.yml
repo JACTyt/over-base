@@ -1,14 +1,11 @@
 info:
-  name: Draft hero
+  name: GET /heroes?role={role}
   type: http
-  seq: 1
+  seq: 9
 
 http:
-  method: POST
-  url: "{{api}}/draft"
-  body:
-    type: json
-    data: "{}"
+  method: GET
+  url: "{{api}}/heroes?role=tank"
   auth: inherit
 
 settings:

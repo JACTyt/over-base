@@ -1,16 +1,16 @@
 info:
-  name: Get hero
+  name: POST /skills_ban
   type: http
-  seq: 5
+  seq: 4
 
 http:
   method: POST
-  url: "{{api}}/get_hero"
+  url: "{{api}}/skills_ban"
   body:
     type: json
     data: |-
       {
-        "id": 2
+          "count": 3
       }
   auth: inherit
 

@@ -1,17 +1,16 @@
 info:
-  name: Battle predict
+  name: POST /skills_ban
   type: http
-  seq: 6
+  seq: 4
 
 http:
   method: POST
-  url: "{{api}}/battle_predict"
+  url: "{{api}}/skills_ban"
   body:
     type: json
     data: |-
       {
-        "hero1_id": 2,
-        "hero2_id": 4
+          "count": 3
       }
   auth: inherit
 

@@ -1,16 +1,17 @@
 info:
-  name: Skills combine
+  name: POST /battle_predict
   type: http
-  seq: 3
+  seq: 6
 
 http:
   method: POST
-  url: "{{api}}/skills_combine"
+  url: "{{api}}/battle_predict"
   body:
     type: json
     data: |-
       {
-          "count": 3
+        "hero1_id": 2,
+        "hero2_id": 4
       }
   auth: inherit
 
