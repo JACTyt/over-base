@@ -1,0 +1,56 @@
+name: Docker CI
+
+on:
+  push:
+    paths:
+      - backend/**
+      - frontend/**
+      - docker-compose.yml
+      - .github/workflows/docker-ci.yml
+  pull_request:
+    paths:
+      - backend/**
+      - frontend/**
+      - docker-compose.yml
+      - .github/workflows/docker-ci.yml
+  workflow_dispatch:
+
+jobs:
+  build-images:
+    name: Build Docker images
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - service: backend
+            context: ./backend
+            dockerfile: ./backend/Dockerfile
+            image_tag: over-base-backend:ci
+          - service: frontend
+            context: ./frontend
+            dockerfile: ./frontend/Dockerfile
+            image_tag: over-base-frontend:ci
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build ${{ matrix.service }} image
+        uses: docker/build-push-action@v6
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.dockerfile }}
+          tags: ${{ matrix.image_tag }}
+          push: false
+          load: false
+          platforms: linux/amd64
+          provenance: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build summary
+        run: echo "Built ${{ matrix.image_tag }}"
